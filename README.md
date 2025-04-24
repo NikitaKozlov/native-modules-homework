@@ -1,6 +1,6 @@
 
 
-# Module 4: Working with native modules - homework
+# Module 3: Working with native modules - homework
 
 Our lottery app has impressed our Tech Lead, but to stay ahead, our CTO and Board suggest adding fresh features. This will make us stand out and improve the user experience.
 
