@@ -1,7 +1,7 @@
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, requireNativeComponent, Platform, ViewStyle } from 'react-native';
 
 import { colors } from '../colors';
 import { Fab } from '../components/Fab.tsx';
@@ -9,6 +9,24 @@ import { Loader } from '../components/Loader.tsx';
 import { LotteryList } from '../components/LotteryList.tsx';
 import { useLotteries } from '../hooks/useLotteries.ts';
 import type { AddLotteryNavigationProp } from '../types';
+import { NativeModules } from 'react-native';
+
+const { Notification } = NativeModules;
+
+const CustomButton = requireNativeComponent<CustomButtonProps>(
+  Platform.select({
+    ios: 'RNCustomButtonView',
+    android: 'CustomButton',
+    default: 'CustomButton',
+  }),
+);
+
+type CustomButtonProps = {
+  style?: ViewStyle;
+  title: string;
+  disabled: boolean;
+  onPress: () => void;
+};
 
 export const Home = () => {
   const [selectedLotteries, setSelectedLotteries] = useState<Array<string>>([]);
@@ -56,6 +74,14 @@ export const Home = () => {
       >
         <Text style={styles.text}>Register</Text>
       </TouchableOpacity>
+      <CustomButton
+	      disabled={false}
+	      title="Click Me!"
+	      onPress={() => {
+		      Notification.showNotification('Notification Title', 'Notification Body');
+	      }}
+	      style={{ width: 200, height: 48}}
+      />
       <View style={styles.title}>
         <Text style={styles.titleText}>Lotteries</Text>
         <FontAwesome6 name="dice" size={36} color="black" iconStyle={'solid'} />
